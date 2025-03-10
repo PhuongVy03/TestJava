@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Danh sách Nhân viên</title>
+</head>
+<body>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Tên</th>
+            <th>Ngày sinh</th>
+            <th>Email</th>
+        </tr>
+        <tr th:each="emp:${employees}">
+            <td th:text="${emp.id}"></td>
+            <td th:text="${emp.name}"></td>
+            <td th:text="${emp.birthday}"></td>
+            <td th:text="${emp.email}"></td>
+        </tr>
+    </table>
+</body>
+</html>
