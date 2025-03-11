@@ -11,14 +11,13 @@ import jakarta.validation.constraints.*;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "Employee")
-
+@Table(name = "employee")
 public class Employee {
 	
 	@Valid
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 	
    @Valid
     @NotBlank(message = "Tên không được để trống")
@@ -44,7 +43,7 @@ public class Employee {
 
     public Employee() {}
 
-    public Employee(int id, String name, LocalDate birthday, String email, String password) {
+    public Employee(Long id, String name, LocalDate birthday, String email, String password) {
         this.id = id;
         this.name = name;
         this.birthday = birthday;
@@ -52,11 +51,11 @@ public class Employee {
         this.password = password;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

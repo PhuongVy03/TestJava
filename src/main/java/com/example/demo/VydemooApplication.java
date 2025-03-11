@@ -8,6 +8,7 @@ public class VydemooApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(VydemooApplication.class, args);
+		
 	}
 
 }
