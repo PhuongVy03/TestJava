@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.Employee;
+import com.example.demo.entity.Employee;
 import jakarta.validation.Valid;
 
 import java.time.LocalDate;
