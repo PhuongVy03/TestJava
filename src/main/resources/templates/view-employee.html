@@ -60,11 +60,24 @@
             }).on('changeDate', function (e) {
                 $('#hidden-birthday').val(e.format('yyyy-mm-dd'));
             });
-
+            
             $('#datepicker-btn').click(function () {
                 $('#datepicker-input').datepicker('show');
             });
+            
+            $("input").on("input", function () {
+                $(this).closest(".mb-3").find(".text-danger").hide();
+            });
+
+            $("#datepicker-input").on("changeDate", function () {
+                $(this).closest(".mb-3").find(".text-danger").hide();
+            });
+
+            $("form").on("submit", function () {
+                $(".text-danger").show();
+            });
         });
+ 
     </script>
 </body>
 </html>
