@@ -1,51 +1,30 @@
 package com.example.demo.controller;
 
+import com.example.demo.model.Employee;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
-
-import com.example.demo.model.Employee;
-import com.example.demo.validator.EmployeeValidator;
-
-import jakarta.validation.Valid;
-
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class AddEmployeeController {
-//	@GetMapping("/","/addEmployeeForm")
-	@RequestMapping(value = { "/", "/addEmployeeForm" }, method = RequestMethod.GET)
-	public String showForm(Model model) {
-		model.addAttribute("employee", new Employee());
-		return "view-employee";		
-	}
-	@InitBinder
-    protected void initBinder(WebDataBinder binder) {
-        binder.setValidator(new EmployeeValidator());
-    }	
-	@PostMapping("/addEmployee")
-	    public String doAddEmployee(@ModelAttribute("employee") @Validated Employee employee, BindingResult result, ModelMap modelMap) {
-	        if (result.hasErrors()) {
-	            return "view-employee"; 
-	        }
 
-	        modelMap.addAttribute("employee", employee);
-	        return "secondview-employee";
-	    }
+    @GetMapping({"/", "/addEmployeeForm"})
+    public String showForm(Model model) {
+        model.addAttribute("employee", new Employee());
+        return "view-employee"; // Hiển thị form nhập
+    }
 
-	
-	
-	
-	
-	
+    @PostMapping("/addEmployee")
+    public String doAddEmployee(@ModelAttribute("employee") @Valid @RequestBody Employee employee, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            return "view-employee"; // Nếu có lỗi thì quay lại form và hiển thị lỗi
+        }
+
+        model.addAttribute("employee", employee);
+        return "secondview-employee"; // Chuyển hướng sau khi nhập thành công
+    }
 }
+
+
