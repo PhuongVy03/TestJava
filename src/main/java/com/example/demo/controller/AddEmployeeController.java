@@ -23,15 +23,14 @@ public class AddEmployeeController {
 	
 	 @Autowired
 	    private EmployeeService employeeService;
-//	 @Autowired
-//	 private EmployeeServiceImpl emImp;
+
 	 //Hiện thị from 
     @GetMapping({"/", "/addEmployeeForm"})
     public String showForm(Model model) {
         model.addAttribute("employee", new Employee());
         return "view-employee"; 
     }
-
+    //Thêm nhân viên
     @PostMapping("/addEmployee")
     public String doAddEmployee(@ModelAttribute("employee") @Valid Employee employee, 
                                 BindingResult result, Model model) {
@@ -53,25 +52,43 @@ public class AddEmployeeController {
         }
         return "secondview-employee";  
     }
-    // Xóa nhân viên:
     
-//    @DeleteMapping("/delete/{id}")
-//    public String deleteEmployee(@PathVariable Long id) {
-//		try {
-//			emImp.deleteEmployeeById(id);
-//			return "Xóa nhân viên thành công!";
-//		}catch(RuntimeException e) {
-//			return e.getMessage();
-//		}
-//    	
+    //Sửa nhân viên
+    
+//    @GetMapping("/edit-employee/{id}")
+//    public String showEditForm(@PathVariable Long id, Model model) {
+//        Employee employee = employeeService.findById(id); 
+//        if (employee == null) {
+//            model.addAttribute("errorMessage", "Không tìm thấy nhân viên!");
+//            return "secondview-employee"; 
+//        }
+//        model.addAttribute("employee", employee);
+//        return "edit-employee"; 
 //    }
+    @GetMapping("/edit-employee/{id}")
+    public String showEditForm(@PathVariable Long id, Model model) {
+        Employee employee = employeeService.findById(id);
+        if (employee == null) {
+            return "redirect:/listemployee"; // Nếu không tìm thấy nhân viên, quay lại danh sách
+        }
+        model.addAttribute("employee", employee);
+        return "edit-employee";
+    }
+
+    @PostMapping("/updateEmployee/{id}")
+    public String updateEmployee(@PathVariable Long id, @ModelAttribute EmployeeDto employeeDto,String password) {
+        employeeService.updateEmployee(id, employeeDto,password); 
+        return "redirect:/listemployee"; 
+    }
+    
+    //XÓA NHÂN VIÊN
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteEmployee(@PathVariable Long id) {
         try {
         	employeeService.deleteEmployeeById(id);
-            return ResponseEntity.ok("Deleted successfully");
+            return ResponseEntity.ok("Xóa thành công");
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Employee not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy nhân viên này!");
         }
     }
 

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Employee</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body class="d-flex justify-content-center align-items-center vh-100">
+    <div class="card shadow p-4" style="width: 350px;">
+        <h2 class="mb-4 text-center">Sửa thông tin nhân viên</h2>
+
+        <form th:action="@{/updateEmployee/{id}(id=${employee.id})}" th:object="${employee}" method="post">
+
+            <input type="hidden" th:field="*{id}" />
+
+            <div class="mb-3">
+                <label class="form-label">Tên</label>
+                <input type="text" class="form-control" th:field="*{name}" required />
+                <div class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Ngày sinh</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="datepicker-input" th:value="${employee.birthday}" readonly />
+                    <input type="hidden" th:field="*{birthday}" id="hidden-birthday"/>
+                    <button class="btn btn-outline-secondary" type="button" id="datepicker-btn">
+                        <i class="fa-solid fa-calendar-days"></i>
+                    </button>
+                </div>
+                <div class="text-danger" th:if="${#fields.hasErrors('birthday')}" th:errors="*{birthday}"></div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-control" th:field="*{email}" required />
+                <div class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Sửa mật khẩu</label>
+                <input type="password" class="form-control" th:field="*{password}" required />
+                <div class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+            </div>
+			 
+             <div class="d-flex justify-content-between">
+        <!-- Nút Hủy, quay về danh sách nhân viên -->
+        <a href="/listemployee" class="btn btn-secondary">Hủy</a>
+
+        <!-- Nút Lưu thay đổi -->
+        <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+    	</div>
+			
+			
+			
+			
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#datepicker-input').datepicker({
+                format: 'yyyy-mm-dd',
+                autoclose: true,
+                todayHighlight: true,
+                endDate: new Date()
+            }).on('changeDate', function (e) {
+                $('#hidden-birthday').val(e.format('yyyy-mm-dd'));
+            });
+
+            $('#datepicker-btn').click(function () {
+                $('#datepicker-input').datepicker('show');
+            });
+
+            $("input").on("input", function () {
+                $(this).closest(".mb-3").find(".text-danger").hide();
+            });
+
+            $("form").on("submit", function () {
+                $(".text-danger").show();
+            });
+        });
+    </script>
+</body>
+</html>

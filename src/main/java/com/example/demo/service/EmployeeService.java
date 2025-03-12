@@ -11,4 +11,6 @@ public interface EmployeeService {
 
     void saveEmployee(EmployeeDto employedto, String password);
     public void deleteEmployeeById(Long id) ;
+    Employee findById(Long id);
+    public void updateEmployee(Long id, EmployeeDto employeeDto,String password);
 }

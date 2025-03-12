@@ -27,8 +27,7 @@
                     <td th:text="${employee.birthday}"></td>
                     <td th:text="${employee.email}"></td>
                     <td>
-                        <a th:href="@{/editEmployee/{id}(id=${employee.id})}" class="btn btn-warning btn-sm">Sửa</a>
-                   
+                   		<a th:href="@{/edit-employee/{id}(id=${employee.id})}" class="btn btn-warning btn-sm">Sửa</a>
                         <button class="btn btn-danger btn-sm" th:data-id="${employee.id}" onclick="deleteEmployee(this)">Xóa</button>
                     </td>
                 </tr>

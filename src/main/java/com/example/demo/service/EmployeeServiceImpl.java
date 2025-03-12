@@ -19,6 +19,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Autowired
     private EmployeeRepository employeeRepository;
+   
+    
     @Override
     public void deleteEmployeeById(Long id) {
     	if(employeeRepository.existsById(id)) {
@@ -44,5 +46,24 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         employeeRepository.save(employee);
     }
+
+	@Override
+	public Employee findById(Long id) {
+		// TODO Auto-generated method stub
+		return employeeRepository.findById(id).orElse(null);
+		
+		
+	}
+	@Override
+	public void updateEmployee(Long id, EmployeeDto employeeDto,String password) {
+	    Employee employee = employeeRepository.findById(id)
+	        .orElseThrow(() -> new RuntimeException("Không tìm thấy nhân viên với ID: " + id));
+	    
+	    employee.setName(employeeDto.getName());
+	    employee.setBirthday(employeeDto.getBirthday());
+	    employee.setEmail(employeeDto.getEmail());
+	    employee.setPassword(password);  
+	    employeeRepository.save(employee);
+	}
     
 }
