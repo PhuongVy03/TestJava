@@ -10,4 +10,5 @@ public interface EmployeeService {
     List<Employee> getAllEmployee();  
 
     void saveEmployee(EmployeeDto employedto, String password);
+    public void deleteEmployeeById(Long id) ;
 }

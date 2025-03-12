@@ -23,8 +23,8 @@ public class AddEmployeeController {
 	
 	 @Autowired
 	    private EmployeeService employeeService;
-	 @Autowired
-	 private EmployeeServiceImpl emImp;
+//	 @Autowired
+//	 private EmployeeServiceImpl emImp;
 	 //Hiện thị from 
     @GetMapping({"/", "/addEmployeeForm"})
     public String showForm(Model model) {
@@ -68,7 +68,7 @@ public class AddEmployeeController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteEmployee(@PathVariable Long id) {
         try {
-            emImp.deleteEmployeeById(id);
+        	employeeService.deleteEmployeeById(id);
             return ResponseEntity.ok("Deleted successfully");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Employee not found");
