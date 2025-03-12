@@ -19,7 +19,15 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Autowired
     private EmployeeRepository employeeRepository;
-    
+  
+    public void deleteEmployeeById(Long id) {
+    	if(employeeRepository.existsById(id)) {
+    		employeeRepository.deleteById(id);
+    	}else {
+    		throw new RuntimeException("Không tìm thấy nhân viên với ID: "+ id  );
+    	}
+    }
+  
     @Override
     public List<Employee> getAllEmployee() {
         return employeeRepository.findAll(); 
@@ -36,4 +44,5 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         employeeRepository.save(employee);
     }
+    
 }

@@ -10,5 +10,6 @@ import com.example.demo.entity.Employee;
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 	Optional<Employee> findByEmail(String email);
+	void deleteById(Long id);
 }
 
