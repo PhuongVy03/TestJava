@@ -20,7 +20,6 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     private EmployeeRepository employeeRepository;
     
-    @Transactional
     @Override
     public List<Employee> getAllEmployee() {
         return employeeRepository.findAll(); 

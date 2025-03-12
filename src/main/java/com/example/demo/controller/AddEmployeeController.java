@@ -28,29 +28,7 @@ public class AddEmployeeController {
         model.addAttribute("employee", new Employee());
         return "view-employee"; 
     }
-    
-    //submit form
 
-//    @PostMapping("/addEmployee")
-//    public String doAddEmployee(@ModelAttribute("employee") @Valid Employee employee, BindingResult result, Model model) {
-//        if (result.hasErrors()) {
-//            return "view-employee"; 
-//        }
-//
-//        try {
-//            EmployeeDto employeeDto = new EmployeeDto(employee.getId(), employee.getName(), employee.getBirthday(), employee.getEmail());
-//            employeeService.saveEmployee(employeeDto, employee.getPassword());
-//
-//            List<Employee> employees = employeeService.getAllEmployee();
-//            model.addAttribute("employees", employees); 
-//
-//        } catch (RuntimeException e) {
-//            model.addAttribute("errorMessage", e.getMessage());
-//            return "view-employee"; 
-//        }
-//
-//        return "secondview-employee";  }
-    
     @PostMapping("/addEmployee")
     public String doAddEmployee(@ModelAttribute("employee") @Valid Employee employee, 
                                 BindingResult result, Model model) {
@@ -59,24 +37,18 @@ public class AddEmployeeController {
         }
 
         try {
-            // Tạo DTO từ entity
+           
             EmployeeDto employeeDto = new EmployeeDto(employee.getId(), employee.getName(), 
-                                                      employee.getBirthday(), employee.getEmail());
-
-            // Lưu dữ liệu vào database
+                                                      employee.getBirthday(), employee.getEmail()); 
             employeeService.saveEmployee(employeeDto, employee.getPassword());
-
-            // Lấy lại danh sách nhân viên sau khi thêm mới
             List<Employee> employees = employeeService.getAllEmployee();
             model.addAttribute("employees", employees); 
 
         } catch (Exception e) {
             model.addAttribute("errorMessage", "Lỗi khi thêm nhân viên: " + e.getMessage());
-            return "view-employee";  // Nếu lỗi, giữ nguyên form để nhập lại
+            return "view-employee"; 
         }
-
-        // Chuyển hướng đến trang hiển thị danh sách nhân viên
-        return "redirect:/secondview-employee";  
+        return "secondview-employee";  
     }
 
 
