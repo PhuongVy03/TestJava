@@ -44,6 +44,7 @@ public class AddEmployeeController {
     public String doAddEmployee(@ModelAttribute("employee") @Valid Employee employee, 
                                 BindingResult result, Model model) {
         if (result.hasErrors()) {
+        	 
             return "view-employee"; 
         }
 

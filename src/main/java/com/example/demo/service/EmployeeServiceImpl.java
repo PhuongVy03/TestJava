@@ -47,11 +47,14 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setBirthday(employedto.getBirthday());
         employee.setEmail(employedto.getEmail());
         employee.setPassword(password);  
-        
+        if(employedto.getAddressId()!= null) {
         Address address = addressRepository.findById(employedto.getAddressId())
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy địa chỉ!"));
         		employee.setAddress(address); 
-        
+        }else {
+        	employee.setAddress(null);
+        }
+       
         employeeRepository.save(employee);
     }
 

@@ -14,7 +14,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 	Optional<Employee> findByEmail(String email);
 	void deleteById(Long id);
 	
-	@Query("SELECT e FROM Employee e JOIN FETCH e.address")
+	@Query("SELECT e FROM Employee e LEFT JOIN FETCH e.address")
     List<Employee> findAllWithAddress();
 }
 

@@ -27,7 +27,7 @@
                     <td th:text="${employee.name}"></td>
                     <td th:text="${employee.birthday}"></td>
                     <td th:text="${employee.email}"></td>
-                    <td th:text="${employee.address != null ? employee.address.address : 'Chưa có địa chỉ'}"></td>
+                    <td th:text="${employee.address != null ? employee.address.address : ' '}"></td>
                     <td>
                    		<a th:href="@{/edit-employee/{id}(id=${employee.id})}" class="btn btn-warning btn-sm">Sửa</a>
                         <button class="btn btn-danger btn-sm" th:data-id="${employee.id}" onclick="deleteEmployee(this)">Xóa</button>

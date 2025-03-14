@@ -35,8 +35,8 @@ public class EmployeeDto {
     @Column(unique = true, nullable = false)
     @Email(message = "Email không hợp lệ")
     private String email;
-   	@Valid
-    @NotNull(message = "Địa chỉ không được để trống")
+//   	@Valid
+//    @NotNull(message = "Địa chỉ không được để trống")
     private Long addressId; // ID của Address
  
    	
