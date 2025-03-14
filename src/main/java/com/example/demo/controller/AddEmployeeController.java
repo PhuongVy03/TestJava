@@ -1,7 +1,10 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.EmployeeDto;
+import com.example.demo.entity.Address;
 import com.example.demo.entity.Employee;
+import com.example.demo.repository.AddressRepository;
+
 import jakarta.validation.Valid;
 
 import java.time.LocalDate;
@@ -23,11 +26,17 @@ public class AddEmployeeController {
 	
 	 @Autowired
 	    private EmployeeService employeeService;
+	 @Autowired
+	    private AddressRepository addressRepository; 
 
 	 //Hiện thị from 
     @GetMapping({"/", "/addEmployeeForm"})
     public String showForm(Model model) {
         model.addAttribute("employee", new Employee());
+        
+        List<Address> addresses = addressRepository.findAll();
+        model.addAttribute("addresses", addresses);
+
         return "view-employee"; 
     }
     //Thêm nhân viên
@@ -40,11 +49,23 @@ public class AddEmployeeController {
 
         try {
            
-            EmployeeDto employeeDto = new EmployeeDto(employee.getId(), employee.getName(), 
-                                                      employee.getBirthday(), employee.getEmail()); 
-            employeeService.saveEmployee(employeeDto, employee.getPassword());
-            List<Employee> employees = employeeService.getAllEmployee();
-            model.addAttribute("employees", employees); 
+//            EmployeeDto employeeDto = new EmployeeDto(employee.getId(), employee.getName(), 
+//                                                      employee.getBirthday(), employee.getEmail(),); 
+//            employeeService.saveEmployee(employeeDto, employee.getPassword());
+//            List<Employee> employees = employeeService.getAllEmployee();
+//            model.addAttribute("employees", employees); 
+        	
+        	EmployeeDto employeeDto = new EmployeeDto(
+                    employee.getId(),
+                    employee.getName(),
+                    employee.getBirthday(),
+                    employee.getEmail(),
+                    employee.getAddress().getId() 
+                );
+
+                employeeService.saveEmployee(employeeDto, employee.getPassword());
+                List<Employee> employees = employeeService.getAllEmployee();
+                model.addAttribute("employees", employees); 
 
         } catch (Exception e) {
             model.addAttribute("errorMessage", "Lỗi khi thêm nhân viên: " + e.getMessage());
@@ -53,18 +74,7 @@ public class AddEmployeeController {
         return "secondview-employee";  
     }
     
-    //Sửa nhân viên
-    
-//    @GetMapping("/edit-employee/{id}")
-//    public String showEditForm(@PathVariable Long id, Model model) {
-//        Employee employee = employeeService.findById(id); 
-//        if (employee == null) {
-//            model.addAttribute("errorMessage", "Không tìm thấy nhân viên!");
-//            return "secondview-employee"; 
-//        }
-//        model.addAttribute("employee", employee);
-//        return "edit-employee"; 
-//    }
+
     @GetMapping("/edit-employee/{id}")
     public String showEditForm(@PathVariable Long id, Model model) {
         Employee employee = employeeService.findById(id);

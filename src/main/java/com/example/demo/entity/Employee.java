@@ -5,10 +5,14 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import java.time.LocalDate;
+
+import com.example.demo.entity.Address; 
 
 @Entity
 @Table(name = "employee")
@@ -39,7 +43,17 @@ public class Employee {
    	@Valid
     @NotBlank(message = "Password không được để trống")
    	private String password;
+   	// Tham chiếu bảng
+   	@ManyToOne
+   	@JoinColumn(name="address_id")
+   	private Address address;
    	
+   	public Address getAddress() {
+   		return address;
+   	}
+   	public void setAddress(Address address) {
+   		this.address= address;
+   	}
 
     public Employee() {}
 

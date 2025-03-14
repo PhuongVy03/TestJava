@@ -38,6 +38,16 @@
                 <input type="email" class="form-control" th:field="*{email}" />
                 <div class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
             </div>
+            
+            <div class="mb-3">
+			    <label class="form-label">Địa chỉ</label>
+			    <select class="form-control" th:field="*{address}">
+		        	<option value="">-- Chọn địa chỉ --</option>
+		       		 <option th:each="addr : ${addresses}" th:value="${addr.id}" th:text="${addr.address}"></option>
+   				 </select>
+    		<div class="text-danger" th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></div>
+			</div>
+			
             <div class="mb-3">
                 <label class="form-label">Mật khẩu</label>
                 <input type="password" class="form-control" th:field="*{password}" />

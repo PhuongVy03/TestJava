@@ -35,17 +35,20 @@ public class EmployeeDto {
     @Column(unique = true, nullable = false)
     @Email(message = "Email không hợp lệ")
     private String email;
-   	
+   	@Valid
+    @NotNull(message = "Địa chỉ không được để trống")
+    private Long addressId; // ID của Address
  
    	
 
     public EmployeeDto() {}
 
-    public EmployeeDto(Long id, String name, LocalDate birthday, String email) {
+    public EmployeeDto(Long id, String name, LocalDate birthday, String email,Long addressId) {
         this.id = id;
         this.name = name;
         this.birthday = birthday;
         this.email = email;
+        this.addressId = addressId;
         
     }
 
@@ -81,6 +84,13 @@ public class EmployeeDto {
         this.email = email;
     }
    
+    public Long getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(Long addressId) {
+        this.addressId = addressId;
+    }
    
    
 

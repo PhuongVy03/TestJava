@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dto.EmployeeDto;
+import com.example.demo.entity.Address;
 import com.example.demo.entity.Employee;
+import com.example.demo.repository.AddressRepository;
 import com.example.demo.repository.EmployeeRepository;
 import com.example.demo.service.EmployeeService;
 
@@ -20,6 +22,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     private EmployeeRepository employeeRepository;
    
+    @Autowired
+    private AddressRepository addressRepository;
     
     @Override
     public void deleteEmployeeById(Long id) {
@@ -32,7 +36,7 @@ public class EmployeeServiceImpl implements EmployeeService {
   
     @Override
     public List<Employee> getAllEmployee() {
-        return employeeRepository.findAll(); 
+        return employeeRepository.findAllWithAddress(); 
     }
 
     @Override
@@ -43,7 +47,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setBirthday(employedto.getBirthday());
         employee.setEmail(employedto.getEmail());
         employee.setPassword(password);  
-
+        
+        Address address = addressRepository.findById(employedto.getAddressId())
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy địa chỉ!"));
+        		employee.setAddress(address); 
+        
         employeeRepository.save(employee);
     }
 
