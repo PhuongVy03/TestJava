@@ -1,15 +1,40 @@
 <!DOCTYPE html>
-<html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>home</title>
+    <title>Chat App</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 </head>
 <body>
-<h1>Thứ 2</h1>
-<ul> 
-	<li>Mục 1</li>
-	<li>Mục 2</li>
-	<li>Mục 3</li>
-</ul>
+    <h2>Chat Realtime với WebSocket</h2>
+    <input type="text" id="messageInput" placeholder="Nhập tin nhắn">
+    <button onclick="sendMessage()">Gửi</button>
+    <ul id="messageList"></ul>
+
+    <script th:inline="javascript">
+        let socket = new SockJS("/ws");  // Kết nối đến WebSocket
+        let stompClient = Stomp.over(socket);
+
+        stompClient.connect({}, function() {
+            console.log("✅ Kết nối thành công!");
+
+            // Lắng nghe tin nhắn từ server
+            stompClient.subscribe("/topic/messages", function(response) {
+                let message = JSON.parse(response.body);
+                let messageList = document.getElementById("messageList");
+                let listItem = document.createElement("li");
+                listItem.textContent = message.sender + ": " + message.content;
+                messageList.appendChild(listItem);
+            });
+        });
+
+        function sendMessage() {
+            let input = document.getElementById("messageInput");
+            let message = { sender: "User", content: input.value };
+
+            stompClient.send("/app/chat", {}, JSON.stringify(message));
+            input.value = ""; // Xóa nội dung sau khi gửi
+        }
+    </script>
 </body>
 </html>

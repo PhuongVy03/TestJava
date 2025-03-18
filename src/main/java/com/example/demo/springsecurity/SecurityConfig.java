@@ -14,7 +14,7 @@ public class SecurityConfig {
 	 @Bean
 	    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 	        http
-	        	//.csrf(csrf -> csrf)) 
+	        	.csrf(csrf -> csrf.disable())
 	            .authorizeHttpRequests(auth -> auth
 	                .requestMatchers("/**", "/login").permitAll()
 	                .anyRequest().authenticated()
@@ -34,7 +34,12 @@ public class SecurityConfig {
 	        return http.build();
 	    }
 
-	    @Bean
+	    private Object disable() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+		@Bean
 	    public PasswordEncoder passwordEncoder() {
 	        return new BCryptPasswordEncoder(); 
 	    }
