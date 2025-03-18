@@ -46,7 +46,7 @@ public class Employee {
    	// Tham chiếu bảng
    	@ManyToOne
    	@JoinColumn(name="address_id")
-   	private Address address;
+   	private Address address ;
    	
    	public Address getAddress() {
    		return address;
@@ -54,7 +54,8 @@ public class Employee {
    	public void setAddress(Address address) {
    		this.address= address;
    	}
-
+   	private String role;
+   	
     public Employee() {}
 
     public Employee(Long id, String name, LocalDate birthday, String email, String password) {

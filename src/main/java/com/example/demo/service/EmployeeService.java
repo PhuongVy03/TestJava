@@ -13,4 +13,7 @@ public interface EmployeeService {
     public void deleteEmployeeById(Long id) ;
     Employee findById(Long id);
     public void updateEmployee(Long id, EmployeeDto employeeDto,String password);
+    public Employee findByEmail(String email);
+        
+    
 }

@@ -39,6 +39,7 @@ public class AddEmployeeController {
 
         return "view-employee"; 
     }
+   
     //Thêm nhân viên
     @PostMapping("/addEmployee")
     public String doAddEmployee(@ModelAttribute("employee") @Valid Employee employee, 
@@ -49,12 +50,7 @@ public class AddEmployeeController {
         }
 
         try {
-           
-//            EmployeeDto employeeDto = new EmployeeDto(employee.getId(), employee.getName(), 
-//                                                      employee.getBirthday(), employee.getEmail(),); 
-//            employeeService.saveEmployee(employeeDto, employee.getPassword());
-//            List<Employee> employees = employeeService.getAllEmployee();
-//            model.addAttribute("employees", employees); 
+         
         	
         	EmployeeDto employeeDto = new EmployeeDto(
                     employee.getId(),
@@ -80,7 +76,7 @@ public class AddEmployeeController {
     public String showEditForm(@PathVariable Long id, Model model) {
         Employee employee = employeeService.findById(id);
         if (employee == null) {
-            return "redirect:/listemployee"; // Nếu không tìm thấy nhân viên, quay lại danh sách
+            return "redirect:/listemployee"; 
         }
         model.addAttribute("employee", employee);
         return "edit-employee";
@@ -110,6 +106,26 @@ public class AddEmployeeController {
     	List<Employee> employees = employeeService.getAllEmployee();
         model.addAttribute("employees", employees);
         return "secondview-employee";  
+    }
+    //login 
+    @GetMapping("/login")
+    public String loginForm() {
+        return "login"; // Hiển thị trang login.html
+    }
+    @PostMapping("/login")
+    public String doLogin(@RequestParam String email, 
+                          @RequestParam String password, 
+                          Model model) {
+        // Tìm employee theo email
+        Employee employee = employeeService.findByEmail(email);
+
+        // Kiểm tra nếu employee tồn tại và mật khẩu đúng
+        if (employee != null && employee.getPassword().equals(password)) {
+            return "redirect:/addEmployeeForm"; 
+        } else {
+            model.addAttribute("errorMessage", "Sai email hoặc mật khẩu!");
+            return "login";
+        }
     }
 }
 

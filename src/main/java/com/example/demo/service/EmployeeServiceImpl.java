@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dto.EmployeeDto;
@@ -24,7 +25,8 @@ public class EmployeeServiceImpl implements EmployeeService {
    
     @Autowired
     private AddressRepository addressRepository;
-    
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     @Override
     public void deleteEmployeeById(Long id) {
     	if(employeeRepository.existsById(id)) {
@@ -46,7 +48,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setName(employedto.getName());
         employee.setBirthday(employedto.getBirthday());
         employee.setEmail(employedto.getEmail());
-        employee.setPassword(password);  
+        employee.setPassword(passwordEncoder.encode(password));
         if(employedto.getAddressId()!= null) {
         Address address = addressRepository.findById(employedto.getAddressId())
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy địa chỉ!"));
@@ -73,8 +75,17 @@ public class EmployeeServiceImpl implements EmployeeService {
 	    employee.setName(employeeDto.getName());
 	    employee.setBirthday(employeeDto.getBirthday());
 	    employee.setEmail(employeeDto.getEmail());
-	    employee.setPassword(password);  
+	    if (password != null && !password.isEmpty()) {
+            employee.setPassword(passwordEncoder.encode(password));
+        }
+
 	    employeeRepository.save(employee);
+	}
+
+	@Override
+	public Employee findByEmail(String email) {
+		// TODO Auto-generated method stub
+		return employeeRepository.findByEmail(email).orElse(null);
 	}
     
 }

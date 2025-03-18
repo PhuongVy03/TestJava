@@ -24,22 +24,22 @@ public class VydemooApplication {
 		
 	}
 		
-	 @Bean
-	    CommandLineRunner initData(AddressRepository addressRepository) {
-	        return args -> {
-	            try {
-	            	addressRepository.deleteAll();
-	                List<String> provinces = Files.lines(Paths.get("src/main/resources/provinces.txt"))
-	                                              .collect(Collectors.toList());
-
-	                for (String province : provinces) {
-	                    Address address = new Address();
-	                    address.setAddress(province);
-	                    addressRepository.save(address);
-	                }
-	            } catch (IOException e) {
-	                e.printStackTrace();
-	            }
-	        };
-	 }
+//	 @Bean
+//	    CommandLineRunner initData(AddressRepository addressRepository) {
+//	        return args -> {
+//	            try {
+//	            	addressRepository.deleteAll();
+//	                List<String> provinces = Files.lines(Paths.get("src/main/resources/provinces.txt"))
+//	                                              .collect(Collectors.toList());
+//
+//	                for (String province : provinces) {
+//	                    Address address = new Address();
+//	                    address.setAddress(province);
+//	                    addressRepository.save(address);
+//	                }
+//	            } catch (IOException e) {
+//	                e.printStackTrace();
+//	            }
+//	        };
+//	 }
 }
